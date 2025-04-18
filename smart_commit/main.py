@@ -50,7 +50,7 @@ if not diff:
 staged_files = get_staged_files()
 files_str = ", ".join(staged_files)
 
-prompt = f"Generate a concise but descriptive git commit message based on the following diff, use git commit covebctional terms :\n\n{diff}"
+prompt = f"""Generate a concise but descriptive git commit message based on the following diff, use git commit covebctional terms :\n\n{diff}  files changed:{files_str}"""
 commit_message = ask_gemini(prompt)
 print(commit_message)
 
