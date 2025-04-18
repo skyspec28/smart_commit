@@ -1,4 +1,5 @@
 import os
+import sys
 import google.generativeai as genai
 from dotenv import load_dotenv
 import subprocess
@@ -33,22 +34,33 @@ def commit_with_message(message):
     except subprocess.CalledProcessError as e:
         print("Git commit failed", e)
 
+def get_staged_files():
+    try:
+        files = subprocess.check_output(["git", "diff", "--cached", "--name-only"], text=True).splitlines()
+        return files
+    except subprocess.CalledProcessError as e:
+        print("Error getting staged files:", e)
+        return []
+    
 diff = get_git_diff()
 
 if not diff:
     print("No staged changes found. Stage your files with `git add` before running this.")
-else:
-    prompt = f"Generate a concise but descriptive git commit message based on the following diff, use git commit covebctional terms :\n\n{diff}"
-    commit_message = ask_gemini(prompt)
-    print(commit_message)
-    
-    
+    sys.exit(0)
+staged_files = get_staged_files()
+files_str = ", ".join(staged_files)
 
-    user_input=input("Do you want to commit with this messaage ? (y/n)").strip().lower()
-    if user_input == 'y':
-        commit_with_message(commit_message)
-    else:
-        print("Commit aborted.")
-        sys.exit(0)
+prompt = f"Generate a concise but descriptive git commit message based on the following diff, use git commit covebctional terms :\n\n{diff}"
+commit_message = ask_gemini(prompt)
+print(commit_message)
+
+
+
+user_input=input("Do you want to commit with this messaage ? (y/n)").strip().lower()
+if user_input == 'y':
+    commit_with_message(commit_message)
+else:
+    print("Commit aborted.")
+    sys.exit(0)
 
 
