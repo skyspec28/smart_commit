@@ -13,3 +13,4 @@ def process_data(data=None):
 process_data()  # Output: No data provided.
 process_data([])  # Output: Data is empty.
 process_data([1, 2, 3])  # Output: Processing data: [1, 2, 3]
+
