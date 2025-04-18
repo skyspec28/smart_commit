@@ -1,0 +1,15 @@
+header_pattern: '^(?P<type>\w+)(?:\((?P<scope>\w+)\))?: (?P<description>.+)$'
+body_start_pattern: '^(\s*[A-Za-z].*)$'
+footer_pattern: '^(BREAKING CHANGE:|Closes|Fixes|Refs) .*'
+types:
+  - feat
+  - fix
+  - docs
+  - style
+  - refactor
+  - test
+  - chore
+  - perf
+  - build
+  - ci
+  - revert
