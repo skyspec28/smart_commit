@@ -44,7 +44,6 @@ def get_staged_files():
     except subprocess.CalledProcessError as e:
         print("Error getting staged files:", e)
         return []
-    
 diff = get_git_diff()
 
 if not diff:
@@ -61,7 +60,6 @@ Diff:
 Files changed: {", ".join(staged_files)}
 """
 commit_message = ask_gemini(prompt)
-print(files_str)
 print(commit_message)
 
 
@@ -72,5 +70,4 @@ if user_input == 'y':
 else:
     print("Commit aborted.")
     sys.exit(0)
-
 
