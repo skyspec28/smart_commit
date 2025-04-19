@@ -1,4 +1,3 @@
-# config_loader.py
 from pydantic import BaseModel, Field
 from typing import List, Dict
 import yaml
