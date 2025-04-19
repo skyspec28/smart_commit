@@ -1,0 +1,47 @@
+ai:
+  model: "gemini-1.5-flash"
+  temperature: 0.7
+  max_tokens: 100
+  emoji_map:
+    feat: ":sparkles:"
+    fix: ":bug:"
+    docs: ":memo:"
+    refactor: ":recycle:"
+    build: ":construction_worker:"
+    test: ":white_check_mark:"
+    ci: ":green_heart:"
+    style: ":art:"
+    chore: ":wrench:"
+    perf: ":zap:"
+  rules:
+    - "Use git commit conventional terms (e.g., feat, fix, docs, style, refactor, test, chore, perf, build, ci, revert etc)"
+    - "The message should be clear, short, and use imperative mood (e.g., 'Add', 'Fix', not 'Added', 'Fixed')"
+    - "Avoid vague terms like 'update' or 'change'"
+    - "Focus only on what's changed in the diff"
+    - "Summarize multiple changes if present, but avoid over-explaining"
+    - "Do not include filenames in the message unless essential"
+    - "Use appropriate emoji prefix for commit types - feat(✨), fix(🐛), docs(📝), refactor(♻️), build(👷), test(✅), ci(💚), style(🎨), chore(🔧), perf(⚡)"
+
+commit:
+  auto_emoji: true
+  validate_conventional: true
+  preview_diff: true
+  interactive_mode: true
+  allowed_types:
+    - feat
+    - fix
+    - docs
+    - style
+    - refactor
+    - test
+    - chore
+    - perf
+    - build
+    - ci
+    - revert
+
+
+
+git:
+  branch_reference: true
+  similar_commits: 3
