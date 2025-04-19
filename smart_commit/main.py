@@ -3,6 +3,7 @@ import sys
 import google.generativeai as genai
 from dotenv import load_dotenv
 import subprocess
+from config_loader import load_config
 
 load_dotenv()
 api_key = os.getenv("GOOGLE_API_KEY")
@@ -10,6 +11,8 @@ api_key = os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=api_key)
 
 model = genai.GenerativeModel(model_name="models/gemini-1.5-flash")
+config = load_config()
+rules = "\n".join(config.ai.rules)
 
 def ask_gemini(prompt):
     response=model.generate_content(prompt)
@@ -50,14 +53,21 @@ if not diff:
 staged_files = get_staged_files()
 files_str = ", ".join(staged_files)
 
-prompt = f"""Generate a concise but descriptive git commit message based on the following diff, use git commit covebctional terms :\n\n{diff}  files changed:{files_str}"""
+prompt = f"""{rules}
+
+Diff:
+{diff}
+
+Files changed: {", ".join(staged_files)}
+"""
 commit_message = ask_gemini(prompt)
+print(files_str)
 print(commit_message)
 
 
 
 user_input=input("Do you want to commit with this messaage ? (y/n)").strip().lower()
-if user_input == 'y':
+if user_input == 'y': 
     commit_with_message(commit_message)
 else:
     print("Commit aborted.")
