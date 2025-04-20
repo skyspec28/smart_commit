@@ -20,7 +20,8 @@ ai:
     - "Focus only on what's changed in the diff"
     - "Summarize multiple changes if present, but avoid over-explaining"
     - "Do not include filenames in the message unless essential"
-    - "Use appropriate emoji prefix for commit types — ✨ feat, 🐛 fix, 📝 docs, ♻️ refactor, 👷 build, ✅ test, 💚 ci, 🎨 style, 🔧 chore, ⚡ perf."
+    - "Use appropriate emoji prefix for commit types — ✨ feat, 🐛 fix, 📝 docs, ♻️ refactor, 👷 build, ✅ test, 💚 ci, 🎨 style, 🔧 chore, ⚡ perf"
+    - "Output format: <emoji> type(scope): message" 
     - "Follow this commit message pattern exactly: <emoji> type(scope):"
 
 commit:
