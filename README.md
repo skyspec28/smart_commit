@@ -34,6 +34,8 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 Then edit `.env` and add your Google API key:
+# Google Gemini API Key
+# Get your API key from: https://makersuite.google.com/app/apikey
 ```
 GOOGLE_API_KEY=your_api_key_here
 ```
