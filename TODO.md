@@ -18,5 +18,4 @@
 - [ ] Add progress bar during API calls
 - [ ] Implement batch processing for multiple commits
 - [ ] Add commit message validation before committing
-- [ ] Support for custom emoji mappings
-- [ ] Add support for JIRA/GitHub issue linking
+
