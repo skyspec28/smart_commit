@@ -12,6 +12,27 @@ A CLI tool that uses Google's Gemini AI to generate meaningful, conventional com
 
 ## Installation 🚀
 
+### Option 1: Install as a global CLI tool
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/smart-commit.git
+cd smart-commit
+```
+
+2. Install globally:
+```bash
+pip install -e .
+```
+
+3. Configure your API key:
+```bash
+smart-commit config
+```
+Enter your Google API key when prompted (get it from https://makersuite.google.com/app/apikey)
+
+### Option 2: Run from source
+
 1. Clone the repository:
 ```bash
 git clone https://github.com/yourusername/smart-commit.git
@@ -34,8 +55,6 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 Then edit `.env` and add your Google API key:
-# Google Gemini API Key
-# Get your API key from: https://makersuite.google.com/app/apikey
 ```
 GOOGLE_API_KEY=your_api_key_here
 ```
@@ -49,7 +68,11 @@ git add <files>
 
 2. Instead of `git commit`, run:
 ```bash
-python smart_commit/main.py
+# If installed globally:
+smart-commit commit
+
+# Or if running from source:
+python smart_commit/main.py commit
 ```
 
 3. Review the suggested commit message and confirm with 'y' to commit or 'n' to abort.
@@ -69,7 +92,7 @@ ai:
   model: "gemini-1.5-flash"
   temperature: 0.7
   max_tokens: 100
-  
+
 commit:
   auto_emoji: true
   validate_conventional: true
