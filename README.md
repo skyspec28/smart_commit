@@ -16,7 +16,7 @@ A CLI tool that uses Google's Gemini AI to generate meaningful, conventional com
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/smart-commit.git
+git https://github.com/skyspec28/smart_commit.git
 cd smart-commit
 ```
 
@@ -78,6 +78,26 @@ python smart_commit/main.py commit
 ```
 
 3. Review the suggested commit message and confirm with 'y' to commit or 'n' to abort.
+
+### Creating a Shorter Command Alias
+
+If you find `smart-commit` too long to type, you can create a shorter alias like `sc`:
+
+```bash
+# For bash/zsh users, add to your ~/.bashrc or ~/.zshrc:
+echo 'alias sc="smart-commit"' >> ~/.zshrc
+
+# For fish shell users:
+echo 'alias sc="smart-commit"' >> ~/.config/fish/config.fish
+
+# Apply changes to current session:
+source ~/.zshrc  # or source ~/.bashrc or source ~/.config/fish/config.fish
+```
+
+Now you can use the shorter command:
+```bash
+sc commit
+```
 
 ### Using the Global `gitadd` Command
 
@@ -189,19 +209,37 @@ EOF'
 sudo chmod +x /usr/local/bin/gitadd
 ```
 
-### Step 5: Test the Global Command
+### Step 5: Create a Shorter Alias (Optional)
 
-You can now use the `gitadd` command from any Git repository on your system:
+If you find `smart-commit` too long to type, you can create a shorter alias like `sc`:
+
+```bash
+# For bash/zsh users:
+sudo bash -c 'echo "alias sc=\"smart-commit\"" >> /etc/profile'
+
+# Or add it to your personal shell configuration:
+echo 'alias sc="smart-commit"' >> ~/.zshrc  # or ~/.bashrc
+
+# Apply changes to current session:
+source ~/.zshrc  # or source ~/.bashrc
+```
+
+### Step 6: Test the Global Commands
+
+You can now use both commands from any Git repository on your system:
 
 ```bash
 # Navigate to any Git repository
 cd /path/to/any/git/repo
 
-# Use gitadd instead of git add
+# Use the shorter alias for smart-commit
+sc commit
+
+# Or use gitadd instead of git add
 gitadd file1.txt file2.py
 ```
 
-This will add the files and trigger the smart-commit process in one step.
+The `gitadd` command will add the files and trigger the smart-commit process in one step.
 
 ## Contributing 🤝
 
