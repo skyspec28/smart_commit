@@ -61,6 +61,8 @@ GOOGLE_API_KEY=your_api_key_here
 
 ## Usage 💡
 
+### Basic Usage
+
 1. Stage your changes as usual:
 ```bash
 git add <files>
@@ -77,9 +79,20 @@ python smart_commit/main.py commit
 
 3. Review the suggested commit message and confirm with 'y' to commit or 'n' to abort.
 
+### Using the Global `gitadd` Command
+
+For even more convenience, you can set up a global `gitadd` command that combines `git add` and `smart-commit commit` in one step. See the [Global Installation](#global-installation-) section below for instructions.
+
 ## Configuration ⚙️
 
-Configuration is managed through `smart_commit/config.yml`. You can customize:
+Configuration is managed through a YAML file. The tool looks for this file in the following locations (in order of preference):
+
+1. User-specified path (if provided)
+2. `smart_commit/config.yml` in the current directory
+3. Package installation directory
+4. Global system path: `/usr/local/etc/smart-commit/config.yml`
+
+You can customize the following settings:
 
 - AI model parameters
 - Commit message rules
@@ -119,13 +132,84 @@ Common types:
 - ⚡ perf: Performance improvements
 - 🔧 chore: Maintenance tasks
 
+## Global Installation 🌐
+
+Follow these steps to make Smart Commit truly global on your system, allowing you to use it from any directory with a convenient `gitadd` command.
+
+### Step 1: Install Smart Commit
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/smart-commit.git
+cd smart-commit
+
+# Install the package
+pip install -e .
+```
+
+### Step 2: Make the Configuration Globally Available
+
+```bash
+# Create a global config directory
+sudo mkdir -p /usr/local/etc/smart-commit
+
+# Copy the configuration file
+sudo cp smart_commit/config.yml /usr/local/etc/smart-commit/
+```
+
+### Step 3: Create a Symbolic Link to Smart Commit
+
+```bash
+# Create a symbolic link in /usr/local/bin
+sudo ln -sf $(which smart-commit) /usr/local/bin/smart-commit
+```
+
+### Step 4: Create the Global gitadd Command
+
+```bash
+# Create the gitadd script
+sudo bash -c 'cat > /usr/local/bin/gitadd << "EOF"
+#!/bin/bash
+# gitadd - A global command that combines git add and smart-commit
+# Usage: gitadd file1 file2 directory/
+
+# Add all specified files to git staging area
+git add "$@"
+
+# If the add was successful, run smart-commit
+if [ $? -eq 0 ]; then
+    smart-commit commit
+else
+    echo "Error: Failed to add files to git staging area"
+    exit 1
+fi
+EOF'
+
+# Make it executable
+sudo chmod +x /usr/local/bin/gitadd
+```
+
+### Step 5: Test the Global Command
+
+You can now use the `gitadd` command from any Git repository on your system:
+
+```bash
+# Navigate to any Git repository
+cd /path/to/any/git/repo
+
+# Use gitadd instead of git add
+gitadd file1.txt file2.py
+```
+
+This will add the files and trigger the smart-commit process in one step.
+
 ## Contributing 🤝
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`python smart_commit/main.py`)
+3. Commit your changes (`smart-commit commit` or `gitadd .`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
