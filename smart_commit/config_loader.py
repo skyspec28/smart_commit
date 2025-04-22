@@ -24,6 +24,7 @@ class Config(BaseModel):
     commit: CommitConfig
     git: GitConfig
 
+
 def load_config(path: str = "smart_commit/config.yml") -> Config:
     with open(path, "r") as file:
         raw = yaml.safe_load(file)
