@@ -214,6 +214,10 @@ sudo chmod +x /usr/local/bin/gitadd
 If you find `smart-commit` too long to type, you can create a shorter alias like `sc`:
 
 ```bash
+# Method 1: Create a symbolic link (works immediately system-wide)
+sudo ln -sf /usr/local/bin/smart-commit /usr/local/bin/sc
+
+# Method 2: Add a shell alias
 # For bash/zsh users:
 sudo bash -c 'echo "alias sc=\"smart-commit\"" >> /etc/profile'
 
