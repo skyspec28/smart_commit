@@ -263,4 +263,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Google Gemini AI for powering the commit message generation
 - Conventional Commits specification
-- Gitmoji for emoji conventions
+- Gitmoji for emoji convention
