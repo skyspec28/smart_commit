@@ -80,7 +80,24 @@ def commit(no_confirm):
         staged_files = get_staged_files()
         rules = "\n".join(config.ai.rules)
 
-        prompt = f"""{rules}
+        prompt = f""" 
+You are an expert in writing Git commit messages using the Conventional Commits format.
+
+Use one of the following commit types: feat, fix, docs, style, refactor, test, chore, perf, build, ci, revert.
+
+IMPORTANT:
+- Only use 'feat' when new functionality is added.
+- Use 'refactor' when you change structure without changing behavior.
+- Use 'style' for formatting (indentation, spacing, no logic change).
+- Use 'fix' only when you resolve a bug.
+- Do NOT default to 'feat' unless it's clearly a new feature.
+
+Each commit message should follow this exact format:
+<emoji> type(scope): message
+
+Here are the rules to follow:
+                  
+{rules}
 
 Diff:
 {diff}
