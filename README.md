@@ -117,7 +117,7 @@ You can customize the following settings:
 - AI model parameters
 - Commit message rules
 - Emoji mappings
-- Git integration settings
+
 
 Example configuration:
 ```yaml
