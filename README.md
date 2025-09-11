@@ -20,31 +20,30 @@ Got tired of thinking about commit messages and following pattern , so setup scr
 #### Quick Download Commands
 
 ```bash
-# macOS (Apple Silicon) - Available Now ✅
+# macOS (Apple Silicon) - 33 MB ✅
 curl -L https://github.com/skyspec28/smart_commit/releases/latest/download/smart-commit-macos -o smart-commit
 chmod +x smart-commit
 
-# Linux - Coming Soon 🚧
-# curl -L https://github.com/skyspec28/smart_commit/releases/latest/download/smart-commit-linux -o smart-commit
-# chmod +x smart-commit
+# Linux - 44.6 MB ✅
+curl -L https://github.com/skyspec28/smart_commit/releases/latest/download/smart-commit-linux -o smart-commit
+chmod +x smart-commit
 
-# Windows - Coming Soon 🚧
-# Invoke-WebRequest -Uri "https://github.com/skyspec28/smart_commit/releases/latest/download/smart-commit-windows.exe" -OutFile "smart-commit.exe"
+# Windows - 33 MB ✅
+Invoke-WebRequest -Uri "https://github.com/skyspec28/smart_commit/releases/latest/download/smart-commit-windows.exe" -OutFile "smart-commit.exe"
 ```
 
 #### Alternative: Download from GitHub Releases
 
 Visit the [Releases page](https://github.com/skyspec28/smart_commit/releases) and download the binary for your platform:
 
-- **macOS**: `smart-commit-macos` ✅ **Available**
-- **Windows**: `smart-commit-windows.exe` 🚧 **Coming Soon**
-- **Linux**: `smart-commit-linux` 🚧 **Coming Soon**
+- **macOS**: `smart-commit-macos` ✅ **Available** (33 MB)
+- **Windows**: `smart-commit-windows.exe` ✅ **Available** (33 MB)
+- **Linux**: `smart-commit-linux` ✅ **Available** (44.6 MB)
 
-**Note**: Currently only macOS binaries are available. Windows and Linux binaries will be available in the next release.
+**All platforms are now supported!** 🎉
 
 #### Use Immediately
 
-**For macOS (with standalone binary):**
 ```bash
 # Configure once (enter your Google AI API key)
 ./smart-commit config
@@ -56,19 +55,9 @@ git add .
 ./smart-commit commit
 ```
 
-**For Windows/Linux (use Python installation until binaries are ready):**
-```bash
-# Configure once (enter your Google AI API key)
-smart-commit config
+**Note**: On Windows, use `smart-commit.exe` instead of `./smart-commit`
 
-# Stage your changes
-git add .
-
-# Generate and commit with AI
-smart-commit commit
-```
-
-That's it! 🎉 No Python, no pip, no dependencies needed (when using standalone binary).
+That's it! 🎉 No Python, no pip, no dependencies needed.
 
 ### Option 2: Python Installation (For Developers) 
 
@@ -175,7 +164,7 @@ Common types:
 2. Sign in with your Google account
 3. Click "Create API Key"
 4. Copy the generated API key
-5. Run `./smart-commit config` (standalone binary) or `smart-commit config` (Python install) and paste your key
+5. Run `./smart-commit config` (or `smart-commit.exe config` on Windows) and paste your key
 
 ## Contributing 🤝
 
