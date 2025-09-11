@@ -107,8 +107,16 @@ jobs:
 
     - name: Copy files to root
       run: |
+        echo "=== Finding all smart-commit files ==="
+        find . -name "smart-commit*" -type f
+        echo "=== Copying files to root ==="
         find . -name "smart-commit*" -type f -exec cp {} . \;
+        echo "=== Files in root after copy ==="
         ls -la
+        echo "=== Verifying files exist ==="
+        test -f smart-commit-linux && echo "✅ smart-commit-linux found" || echo "❌ smart-commit-linux missing"
+        test -f smart-commit-windows.exe && echo "✅ smart-commit-windows.exe found" || echo "❌ smart-commit-windows.exe missing"
+        test -f smart-commit-macos && echo "✅ smart-commit-macos found" || echo "❌ smart-commit-macos missing"
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
@@ -120,4 +128,4 @@ jobs:
         generate_release_notes: true
         draft: false
         prerelease: false
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GH_PAT }}
