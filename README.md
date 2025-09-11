@@ -46,13 +46,12 @@ Visit the [Releases page](https://github.com/skyspec28/smart_commit/releases) an
 # Configure once (enter your Google AI API key)
 ./smart-commit config
 
-# Stage your changes and commit 
-use gitadd . instead of normal git add it has been alias 
+# Stage your changes
+git add .
 
-# Usage Example 
-gitadd README.md
-
-
+# Generate and commit with AI
+./smart-commit commit
+```
 
 That's it! 🎉 No Python, no pip, no dependencies needed.
 
