@@ -17,14 +17,6 @@ Got tired of thinking about commit messages and following pattern , so setup scr
 
 **No Python installation required!** Download a single executable file:
 
-#### Download from GitHub Releases
-
-Visit the [Releases page](https://github.com/skyspec28/smart_commit/releases) and download the binary for your platform:
-
-- **macOS**: `smart-commit-macos`
-- **Windows**: `smart-commit-windows.exe`
-- **Linux**: `smart-commit-linux`
-
 #### Quick Download Commands
 
 ```bash
@@ -39,6 +31,14 @@ chmod +x smart-commit
 # Windows (PowerShell)
 Invoke-WebRequest -Uri "https://github.com/skyspec28/smart_commit/releases/latest/download/smart-commit-windows.exe" -OutFile "smart-commit.exe"
 ```
+
+#### Alternative: Download from GitHub Releases
+
+Visit the [Releases page](https://github.com/skyspec28/smart_commit/releases) and download the binary for your platform:
+
+- **macOS**: `smart-commit-macos`
+- **Windows**: `smart-commit-windows.exe`
+- **Linux**: `smart-commit-linux`
 
 #### Use Immediately
 
