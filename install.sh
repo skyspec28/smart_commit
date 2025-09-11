@@ -105,10 +105,11 @@ if [ $? -eq 0 ]; then
     echo "  • smart-commit status    - Check configuration"
     echo "  • smart-commit --help    - Show all commands"
     echo ""
-    echo "💡 Pro tip: Create an alias for faster usage:"
+    echo "💡 Pro tip: Create aliases for faster usage:"
     echo "  echo 'alias sc=\"smart-commit\"' >> ~/.zshrc"
+    echo "  echo 'alias gitadd=\"git add\"' >> ~/.zshrc"
     echo "  source ~/.zshrc"
-    echo "  # Then use: sc commit"
+    echo "  # Then use: sc commit or gitadd ."
 else
     echo "❌ Configuration setup failed."
     echo "You can run 'smart-commit config' manually to set up your API key."

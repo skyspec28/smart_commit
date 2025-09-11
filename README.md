@@ -37,11 +37,13 @@ The installation script will:
 ### 2. Start Using Smart Commit
 
 ```bash
-# Stage your changes
+# Option 1: Traditional way
 git add .
-
-# Generate and commit with AI
 smart-commit commit
+
+# Option 2: With aliases (after setup)
+gitadd .
+sc commit
 ```
 
 That's it! 🎉 Smart Commit is now ready to use globally on your system.
@@ -85,14 +87,16 @@ smart-commit commit --no-confirm
 smart-commit --help
 ```
 
-### Create a Shorter Alias (Optional)
+### Create Aliases (Optional)
 
 ```bash
 # Add to your shell config (~/.zshrc, ~/.bashrc, etc.)
 echo 'alias sc="smart-commit"' >> ~/.zshrc
+echo 'alias gitadd="git add"' >> ~/.zshrc
 source ~/.zshrc
 
-# Now use the shorter command
+# Now use the shorter commands
+gitadd .
 sc commit
 ```
 
