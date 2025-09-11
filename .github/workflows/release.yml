@@ -1,0 +1,89 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            platform: linux
+            binary_name: smart-commit-linux
+          - os: windows-latest
+            platform: windows
+            binary_name: smart-commit-windows.exe
+          - os: macos-latest
+            platform: macos
+            binary_name: smart-commit-macos
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pyinstaller
+
+    - name: Build binary
+      run: |
+        pyinstaller \
+          --onefile \
+          --name smart-commit \
+          --add-data "smart_commit/config.yml:smart_commit" \
+          --hidden-import google.generativeai \
+          --hidden-import pydantic \
+          --hidden-import yaml \
+          --hidden-import click \
+          --hidden-import dotenv \
+          smart_commit/main.py
+
+    - name: Rename binary
+      run: |
+        if [ "${{ matrix.platform }}" = "windows" ]; then
+          mv dist/smart-commit.exe dist/${{ matrix.binary_name }}
+        else
+          mv dist/smart-commit dist/${{ matrix.binary_name }}
+        fi
+
+    - name: Upload binary
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.binary_name }}
+        path: dist/${{ matrix.binary_name }}
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+
+    steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          smart-commit-linux/smart-commit-linux
+          smart-commit-windows/smart-commit-windows.exe
+          smart-commit-macos/smart-commit-macos
+        generate_release_notes: true
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

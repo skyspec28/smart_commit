@@ -52,15 +52,36 @@ That's it! 🎉 Smart Commit is now ready to use globally on your system.
 
 **No Python installation required!** Download a single executable file:
 
-```bash
-# Download the binary for your platform
-# (Available in GitHub Releases)
+### Download from GitHub Releases
 
-# Make executable
+Visit the [Releases page](https://github.com/skyspec28/smart_commit/releases) and download the binary for your platform:
+
+- **macOS**: `smart-commit-macos`
+- **Windows**: `smart-commit-windows.exe`
+- **Linux**: `smart-commit-linux`
+
+### Quick Download Commands
+
+```bash
+# macOS (Apple Silicon)
+curl -L https://github.com/skyspec28/smart_commit/releases/latest/download/smart-commit-macos -o smart-commit
 chmod +x smart-commit
 
-# Use immediately
+# Linux
+curl -L https://github.com/skyspec28/smart_commit/releases/latest/download/smart-commit-linux -o smart-commit
+chmod +x smart-commit
+
+# Windows (PowerShell)
+Invoke-WebRequest -Uri "https://github.com/skyspec28/smart_commit/releases/latest/download/smart-commit-windows.exe" -OutFile "smart-commit.exe"
+```
+
+### Use Immediately
+
+```bash
+# Configure once
 ./smart-commit config
+
+# Use from anywhere
 ./smart-commit commit
 ```
 
