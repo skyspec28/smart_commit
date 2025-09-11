@@ -12,22 +12,31 @@ A CLI tool that uses Google's Gemini AI to generate meaningful, conventional com
 - 🌐 Global installation support - use from any directory
 - 🔧 Easy setup with just your Gemini API key
 
+## Prerequisites 📋
+
+- **Python 3.8+** - [Download here](https://www.python.org/downloads/)
+- **pip3** - Usually included with Python
+- **Git** - For version control
+- **Google AI API Key** - Free from [Google AI Studio](https://makersuite.google.com/app/apikey)
+
 ## Quick Start 🚀
 
 ### Option 1: One-Command Installation (Easiest)
 
 ```bash
 # Clone and install with one command
-git clone https://github.com/yourusername/smart-commit.git
-cd smart-commit
+git clone https://github.com/skyspec28/smart_commit.git
+cd smart_commit
 ./install.sh
 ```
 
 The installation script will:
-- ✅ Check system requirements
+- ✅ Check system requirements (Python, pip, etc.)
 - 📦 Install Smart Commit globally
 - 🔧 Guide you through API key setup
 - 🎉 Make it ready to use from any directory
+
+**Note:** If you don't have Python installed, the script will show you exactly how to install it for your operating system.
 
 ### Option 2: Manual Installation
 
