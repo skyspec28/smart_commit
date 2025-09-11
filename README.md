@@ -159,6 +159,50 @@ pip install -e .
 ./build_binary.sh
 ```
 
+## Uninstall 🗑️
+
+### Standalone Binary
+
+Simply delete the binary file:
+
+```bash
+# Remove the binary file
+rm smart-commit
+
+# Or if you renamed it
+rm smart-commit-macos
+rm smart-commit-linux
+rm smart-commit.exe
+```
+
+### Python Installation
+
+If you installed via pip:
+
+```bash
+# Uninstall the package
+pip uninstall smart-commit
+
+# Remove configuration files (optional)
+rm -rf ~/.config/smart-commit
+```
+
+### Remove Aliases (if created)
+
+If you added aliases to your shell config:
+
+```bash
+# Edit your shell config file
+nano ~/.zshrc  # or ~/.bashrc
+
+# Remove these lines:
+# alias sc="./smart-commit"
+# alias gitadd="git add"
+
+# Reload your shell
+source ~/.zshrc
+```
+
 ## License 📄
 
 This project is licensed under the MIT License.
