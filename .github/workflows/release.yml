@@ -153,22 +153,26 @@ jobs:
         echo "=== All files ==="
         find . -type f
 
-    - name: Move binaries to root
+    - name: Move binaries to root and cleanup
       run: |
         echo "=== Finding all smart-commit files ==="
         find . -name "smart-commit*" -type f
-        echo "=== Moving files to root ==="
-        find . -name "smart-commit*" -type f -exec mv -f {} . \;
-        echo "=== Files in root after move ==="
+        echo "=== Moving files to root with temporary names ==="
+        mv -f ./smart-commit-linux/smart-commit-linux ./smart-commit-linux.bin
+        mv -f ./smart-commit-macos/smart-commit-macos ./smart-commit-macos.bin
+        mv -f ./smart-commit-windows.exe/smart-commit-windows.exe ./smart-commit-windows.exe.bin
+        echo "=== Removing empty directories ==="
+        rm -rf ./smart-commit-linux ./smart-commit-macos ./smart-commit-windows.exe
+        echo "=== Renaming files to final names ==="
+        mv ./smart-commit-linux.bin ./smart-commit-linux
+        mv ./smart-commit-macos.bin ./smart-commit-macos
+        mv ./smart-commit-windows.exe.bin ./smart-commit-windows.exe
+        echo "=== Final directory structure ==="
         ls -la
         echo "=== Verifying files exist ==="
         test -f smart-commit-linux && echo "✅ smart-commit-linux found" || echo "❌ smart-commit-linux missing"
         test -f smart-commit-windows.exe && echo "✅ smart-commit-windows.exe found" || echo "❌ smart-commit-windows.exe missing"
         test -f smart-commit-macos && echo "✅ smart-commit-macos found" || echo "❌ smart-commit-macos missing"
-        echo "=== Cleaning up empty directories ==="
-        rm -rf ./smart-commit-linux ./smart-commit-macos ./smart-commit-windows.exe 2>/dev/null || true
-        echo "=== Final directory structure ==="
-        ls -la
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
