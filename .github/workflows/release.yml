@@ -10,12 +10,12 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-2022, macos-latest]
         include:
           - os: ubuntu-latest
             platform: linux
             binary_name: smart-commit-linux
-          - os: windows-latest
+          - os: windows-2022
             platform: windows
             binary_name: smart-commit-windows.exe
           - os: macos-latest
