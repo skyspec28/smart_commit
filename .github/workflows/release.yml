@@ -55,9 +55,9 @@ jobs:
           --hidden-import dotenv `
           smart_commit/main.py
         echo "=== Build completed, checking dist directory ==="
-        ls -la dist/
+        Get-ChildItem dist/
         echo "=== Checking for smart-commit.exe ==="
-        test -f dist/smart-commit.exe && echo "✅ smart-commit.exe found" || echo "❌ smart-commit.exe missing"
+        if (Test-Path "dist/smart-commit.exe") { echo "✅ smart-commit.exe found" } else { echo "❌ smart-commit.exe missing" }
 
     - name: Build binary (Unix)
       if: matrix.platform != 'windows'
@@ -88,9 +88,9 @@ jobs:
         echo "Target: dist\${{ matrix.binary_name }}"
         Move-Item dist\smart-commit.exe dist\${{ matrix.binary_name }}
         echo "=== After rename, checking dist directory ==="
-        ls -la dist/
+        Get-ChildItem dist/
         echo "=== Verifying renamed file exists ==="
-        test -f dist/${{ matrix.binary_name }} && echo "✅ ${{ matrix.binary_name }} found" || echo "❌ ${{ matrix.binary_name }} missing"
+        if (Test-Path "dist/${{ matrix.binary_name }}") { echo "✅ ${{ matrix.binary_name }} found" } else { echo "❌ ${{ matrix.binary_name }} missing" }
 
     - name: Rename binary (Unix)
       if: matrix.platform != 'windows'
@@ -105,7 +105,21 @@ jobs:
         echo "=== Verifying renamed file exists ==="
         test -f dist/${{ matrix.binary_name }} && echo "✅ ${{ matrix.binary_name }} found" || echo "❌ ${{ matrix.binary_name }} missing"
 
-    - name: Check binary before upload
+    - name: Check binary before upload (Windows)
+      if: matrix.platform == 'windows'
+      shell: powershell
+      run: |
+        echo "=== Preparing to upload binary ==="
+        echo "Binary name: ${{ matrix.binary_name }}"
+        echo "Path: dist/${{ matrix.binary_name }}"
+        echo "=== Checking if file exists ==="
+        if (Test-Path "dist/${{ matrix.binary_name }}") { echo "✅ File exists" } else { echo "❌ File missing" }
+        echo "=== File size ==="
+        if (Test-Path "dist/${{ matrix.binary_name }}") { Get-ChildItem "dist/${{ matrix.binary_name }}" | Select-Object Name, Length } else { echo "File not found" }
+
+    - name: Check binary before upload (Unix)
+      if: matrix.platform != 'windows'
+      shell: bash
       run: |
         echo "=== Preparing to upload binary ==="
         echo "Binary name: ${{ matrix.binary_name }}"
