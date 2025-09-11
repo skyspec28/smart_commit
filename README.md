@@ -65,6 +65,7 @@ If you prefer to install from source or contribute to the project:
 
 #### Install Smart Commit
 
+**For macOS/Linux:**
 ```bash
 # Clone and install with one command
 git clone https://github.com/skyspec28/smart_commit.git
@@ -72,7 +73,23 @@ cd smart_commit
 ./install.sh
 ```
 
-The installation script will:
+**For Windows:**
+```bash
+# Clone the repository
+git clone https://github.com/skyspec28/smart_commit.git
+cd smart_commit
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Install globally
+pip install -e .
+
+# Configure your API key
+smart-commit config
+```
+
+The installation will:
 - ✅ Check system requirements
 - 📦 Install Smart Commit globally
 - 🔧 Guide you through API key setup
@@ -81,6 +98,7 @@ The installation script will:
 
 ### Available Commands
 
+**For Standalone Binary:**
 ```bash
 # Configure your API key (first-time setup)
 ./smart-commit config
@@ -96,6 +114,24 @@ The installation script will:
 
 # Show help
 ./smart-commit --help
+```
+
+**For Python Installation:**
+```bash
+# Configure your API key (first-time setup)
+smart-commit config
+
+# Check configuration status
+smart-commit status
+
+# Generate and make a commit
+smart-commit commit
+
+# Skip confirmation prompt
+smart-commit commit --no-confirm
+
+# Show help
+smart-commit --help
 ```
 
 
@@ -124,11 +160,11 @@ Common types:
 2. Sign in with your Google account
 3. Click "Create API Key"
 4. Copy the generated API key
-5. Run `./smart-commit config` and paste your key
+5. Run `./smart-commit config` (standalone binary) or `smart-commit config` (Python install) and paste your key
 
 ## Contributing 🤝
 
-Contributions are welcome! Please feel free to submit a Pull Request.If you know a better way to do this 
+Contributions are welcome! Please feel free to submit a Pull Request. 
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
