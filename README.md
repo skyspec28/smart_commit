@@ -3,7 +3,7 @@
 Got tired of thinking about commit messages and following pattern , so setup scripts for it and use gemni api
 
 
-## Features ✨
+## Features 
 
 - 🎯 Conventional commit format with emojis
 - 🎨 Automatic emoji selection based on commit type
@@ -13,7 +13,7 @@ Got tired of thinking about commit messages and following pattern , so setup scr
 
 ## Quick Start 🚀
 
-### Option 1: Standalone Binary (Recommended) 📦
+### Option 1: Standalone Binary (Recommended) 
 
 **No Python installation required!** Download a single executable file:
 
