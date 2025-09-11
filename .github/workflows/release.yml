@@ -43,6 +43,7 @@ jobs:
       if: matrix.platform == 'windows'
       shell: powershell
       run: |
+        echo "=== Building Windows binary ==="
         pyinstaller `
           --onefile `
           --name smart-commit `
@@ -53,11 +54,16 @@ jobs:
           --hidden-import click `
           --hidden-import dotenv `
           smart_commit/main.py
+        echo "=== Build completed, checking dist directory ==="
+        ls -la dist/
+        echo "=== Checking for smart-commit.exe ==="
+        test -f dist/smart-commit.exe && echo "✅ smart-commit.exe found" || echo "❌ smart-commit.exe missing"
 
     - name: Build binary (Unix)
       if: matrix.platform != 'windows'
       shell: bash
       run: |
+        echo "=== Building Unix binary ==="
         pyinstaller \
           --onefile \
           --name smart-commit \
@@ -68,18 +74,46 @@ jobs:
           --hidden-import click \
           --hidden-import dotenv \
           smart_commit/main.py
+        echo "=== Build completed, checking dist directory ==="
+        ls -la dist/
+        echo "=== Checking for smart-commit ==="
+        test -f dist/smart-commit && echo "✅ smart-commit found" || echo "❌ smart-commit missing"
 
     - name: Rename binary (Windows)
       if: matrix.platform == 'windows'
       shell: powershell
       run: |
+        echo "=== Renaming Windows binary ==="
+        echo "Source: dist\smart-commit.exe"
+        echo "Target: dist\${{ matrix.binary_name }}"
         Move-Item dist\smart-commit.exe dist\${{ matrix.binary_name }}
+        echo "=== After rename, checking dist directory ==="
+        ls -la dist/
+        echo "=== Verifying renamed file exists ==="
+        test -f dist/${{ matrix.binary_name }} && echo "✅ ${{ matrix.binary_name }} found" || echo "❌ ${{ matrix.binary_name }} missing"
 
     - name: Rename binary (Unix)
       if: matrix.platform != 'windows'
       shell: bash
       run: |
+        echo "=== Renaming Unix binary ==="
+        echo "Source: dist/smart-commit"
+        echo "Target: dist/${{ matrix.binary_name }}"
         mv dist/smart-commit dist/${{ matrix.binary_name }}
+        echo "=== After rename, checking dist directory ==="
+        ls -la dist/
+        echo "=== Verifying renamed file exists ==="
+        test -f dist/${{ matrix.binary_name }} && echo "✅ ${{ matrix.binary_name }} found" || echo "❌ ${{ matrix.binary_name }} missing"
+
+    - name: Check binary before upload
+      run: |
+        echo "=== Preparing to upload binary ==="
+        echo "Binary name: ${{ matrix.binary_name }}"
+        echo "Path: dist/${{ matrix.binary_name }}"
+        echo "=== Checking if file exists ==="
+        test -f dist/${{ matrix.binary_name }} && echo "✅ File exists" || echo "❌ File missing"
+        echo "=== File size ==="
+        ls -lh dist/${{ matrix.binary_name }} || echo "File not found"
 
     - name: Upload binary
       uses: actions/upload-artifact@v4
