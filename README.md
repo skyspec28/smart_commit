@@ -49,6 +49,9 @@ Invoke-WebRequest -Uri "https://github.com/skyspec28/smart_commit/releases/lates
 # Stage your changes and commit 
 use gitadd . instead of normal git add it has been alias 
 
+# Usage Example 
+gitadd README.md
+
 
 
 That's it! 🎉 No Python, no pip, no dependencies needed.
