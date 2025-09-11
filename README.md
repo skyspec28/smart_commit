@@ -46,22 +46,19 @@ Invoke-WebRequest -Uri "https://github.com/skyspec28/smart_commit/releases/lates
 # Configure once (enter your Google AI API key)
 ./smart-commit config
 
-# Stage your changes
+# Stage your changes and commit 
 use gitadd . instead of normal git add it has been alias 
 
-# Generate and commit with AI
-./smart-commit commit
-```
+
 
 That's it! 🎉 No Python, no pip, no dependencies needed.
 
-### Option 2: Python Installation (For Developers) 🐍
+### Option 2: Python Installation (For Developers) 
 
 If you prefer to install from source or contribute to the project:
 
 #### Prerequisites
 - **Python 3.8+** - [Download here](https://www.python.org/downloads/)
-- **Git** - For version control
 - **Google AI API Key** - Free from [Google AI Studio](https://makersuite.google.com/app/apikey)
 
 #### Install Smart Commit
@@ -99,18 +96,6 @@ The installation script will:
 ./smart-commit --help
 ```
 
-### Create Aliases (Optional)
-
-```bash
-# Add to your shell config (~/.zshrc, ~/.bashrc, etc.)
-echo 'alias sc="./smart-commit"' >> ~/.zshrc
-echo 'alias gitadd="git add"' >> ~/.zshrc
-source ~/.zshrc
-
-# Now use the shorter commands
-gitadd .
-sc commit
-```
 
 ## Commit Message Format 📝
 
@@ -141,7 +126,7 @@ Common types:
 
 ## Contributing 🤝
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please feel free to submit a Pull Request.If you know a better way to do this 
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
@@ -175,9 +160,3 @@ pip install -e .
 ## License 📄
 
 This project is licensed under the MIT License.
-
-## Acknowledgments 🙏
-
-- Google Gemini AI for powering the commit message generation
-- Conventional Commits specification
-- Gitmoji for emoji convention
