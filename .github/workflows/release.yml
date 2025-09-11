@@ -39,40 +39,47 @@ jobs:
         pip install -r requirements.txt
         pip install pyinstaller
 
-    - name: Build binary
+    - name: Build binary (Windows)
+      if: matrix.platform == 'windows'
+      shell: powershell
       run: |
-        if [ "${{ matrix.platform }}" = "windows" ]; then
-          pyinstaller \
-            --onefile \
-            --name smart-commit \
-            --add-data "smart_commit/config.yml;smart_commit" \
-            --hidden-import google.generativeai \
-            --hidden-import pydantic \
-            --hidden-import yaml \
-            --hidden-import click \
-            --hidden-import dotenv \
-            smart_commit/main.py
-        else
-          pyinstaller \
-            --onefile \
-            --name smart-commit \
-            --add-data "smart_commit/config.yml:smart_commit" \
-            --hidden-import google.generativeai \
-            --hidden-import pydantic \
-            --hidden-import yaml \
-            --hidden-import click \
-            --hidden-import dotenv \
-            smart_commit/main.py
-        fi
+        pyinstaller `
+          --onefile `
+          --name smart-commit `
+          --add-data "smart_commit/config.yml;smart_commit" `
+          --hidden-import google.generativeai `
+          --hidden-import pydantic `
+          --hidden-import yaml `
+          --hidden-import click `
+          --hidden-import dotenv `
+          smart_commit/main.py
 
-    - name: Rename binary
+    - name: Build binary (Unix)
+      if: matrix.platform != 'windows'
       shell: bash
       run: |
-        if [ "${{ matrix.platform }}" = "windows" ]; then
-          mv dist/smart-commit.exe dist/${{ matrix.binary_name }}
-        else
-          mv dist/smart-commit dist/${{ matrix.binary_name }}
-        fi
+        pyinstaller \
+          --onefile \
+          --name smart-commit \
+          --add-data "smart_commit/config.yml:smart_commit" \
+          --hidden-import google.generativeai \
+          --hidden-import pydantic \
+          --hidden-import yaml \
+          --hidden-import click \
+          --hidden-import dotenv \
+          smart_commit/main.py
+
+    - name: Rename binary (Windows)
+      if: matrix.platform == 'windows'
+      shell: powershell
+      run: |
+        Move-Item dist\smart-commit.exe dist\${{ matrix.binary_name }}
+
+    - name: Rename binary (Unix)
+      if: matrix.platform != 'windows'
+      shell: bash
+      run: |
+        mv dist/smart-commit dist/${{ matrix.binary_name }}
 
     - name: Upload binary
       uses: actions/upload-artifact@v4
