@@ -1,13 +1,14 @@
 # Smart Commit 🤖
 
-AI-powered commit message generator using Google's Gemini AI. Generate meaningful, conventional commit messages with emojis based on your staged changes.
+Got tired of thinking about commit messages and following pattern , so setup scripts for it and use gemni api
+
 
 ## Features ✨
 
 - 🎯 Conventional commit format with emojis
 - 🎨 Automatic emoji selection based on commit type
 - 👀 Preview changes before committing
-- 📦 **Standalone binary - No Python installation required!**
+- 📦 **Standalone binary - No language installation required!**
 - 🔧 One-time setup with Gemini API key
 
 ## Quick Start 🚀
@@ -46,7 +47,7 @@ Invoke-WebRequest -Uri "https://github.com/skyspec28/smart_commit/releases/lates
 ./smart-commit config
 
 # Stage your changes
-git add .
+use gitadd . instead of normal git add it has been alias 
 
 # Generate and commit with AI
 ./smart-commit commit
