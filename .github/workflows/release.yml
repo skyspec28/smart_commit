@@ -100,14 +100,23 @@ jobs:
       run: |
         find . -name "smart-commit*" -type f
         ls -la
+        echo "=== Directory structure ==="
+        find . -type d
+        echo "=== All files ==="
+        find . -type f
+
+    - name: Copy files to root
+      run: |
+        find . -name "smart-commit*" -type f -exec cp {} . \;
+        ls -la
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          smart-commit-linux/smart-commit-linux
-          smart-commit-windows/smart-commit-windows.exe
-          smart-commit-macos/smart-commit-macos
+          smart-commit-linux
+          smart-commit-windows.exe
+          smart-commit-macos
         generate_release_notes: true
         draft: false
         prerelease: false
