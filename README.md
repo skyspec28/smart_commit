@@ -9,54 +9,90 @@ A CLI tool that uses Google's Gemini AI to generate meaningful, conventional com
 - 👀 Preview changes before committing
 - ⚙️ Configurable rules and settings
 - 🤝 Interactive mode for confirming generated messages
+- 🌐 Global installation support - use from any directory
+- 🔧 Easy setup with just your Gemini API key
 
-## Installation 🚀
+## Quick Start 🚀
 
-### Option 1: Install as a global CLI tool
+### Option 1: One-Command Installation (Easiest)
 
-1. Clone the repository:
 ```bash
-git https://github.com/skyspec28/smart_commit.git
+# Clone and install with one command
+git clone https://github.com/yourusername/smart-commit.git
 cd smart-commit
+./install.sh
 ```
 
-2. Install globally:
+The installation script will:
+- ✅ Check system requirements
+- 📦 Install Smart Commit globally
+- 🔧 Guide you through API key setup
+- 🎉 Make it ready to use from any directory
+
+### Option 2: Manual Installation
+
 ```bash
+# Install from PyPI (when published)
+pip install smart-commit
+
+# Or install from source
+git clone https://github.com/yourusername/smart-commit.git
+cd smart-commit
 pip install -e .
-```
 
-3. Configure your API key:
-```bash
+# Configure your API key
 smart-commit config
 ```
-Enter your Google API key when prompted (get it from https://makersuite.google.com/app/apikey)
 
-### Option 2: Run from source
+### 3. Start Using Smart Commit
 
-1. Clone the repository:
+```bash
+# Stage your changes
+git add .
+
+# Generate and commit with AI
+smart-commit commit
+```
+
+That's it! 🎉 Smart Commit is now ready to use globally on your system.
+
+## Installation Options 📦
+
+### Option 1: Global Installation (Recommended)
+
+This makes Smart Commit available system-wide from any directory:
+
+```bash
+# Install globally
+pip install smart-commit
+
+# Or install from source
+git clone https://github.com/yourusername/smart-commit.git
+cd smart-commit
+pip install -e .
+
+# Configure once
+smart-commit config
+```
+
+### Option 2: Development Installation
+
+For development or testing:
+
 ```bash
 git clone https://github.com/yourusername/smart-commit.git
 cd smart-commit
-```
 
-2. Create and activate a virtual environment:
-```bash
+# Create virtual environment
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
 
-3. Install dependencies:
-```bash
+# Install dependencies
 pip install -r requirements.txt
-```
 
-4. Set up your environment variables:
-```bash
-cp .env.example .env
-```
-Then edit `.env` and add your Google API key:
-```
-GOOGLE_API_KEY=your_api_key_here
+# Run directly
+python smart_commit/main.py config
+python smart_commit/main.py commit
 ```
 
 ## Usage 💡
@@ -68,16 +104,31 @@ GOOGLE_API_KEY=your_api_key_here
 git add <files>
 ```
 
-2. Instead of `git commit`, run:
+2. Generate and commit with AI:
 ```bash
-# If installed globally:
 smart-commit commit
-
-# Or if running from source:
-python smart_commit/main.py commit
 ```
 
 3. Review the suggested commit message and confirm with 'y' to commit or 'n' to abort.
+
+### Available Commands
+
+```bash
+# Configure your API key (first-time setup)
+smart-commit config
+
+# Check configuration status
+smart-commit status
+
+# Generate and make a commit
+smart-commit commit
+
+# Skip confirmation prompt
+smart-commit commit --no-confirm
+
+# Show help
+smart-commit --help
+```
 
 ### Creating a Shorter Command Alias
 

@@ -52,17 +52,78 @@ def cli():
 
 @cli.command()
 def config():
-    """Configure Smart Commit settings"""
+    """Configure Smart Commit settings with your Gemini API key"""
     config_dir = click.get_app_dir("smart-commit")
     os.makedirs(config_dir, exist_ok=True)
     env_path = os.path.join(config_dir, '.env')
 
-    api_key = click.prompt("Please enter your Google API key", type=str)
+    click.echo("🚀 Welcome to Smart Commit Setup!")
+    click.echo("")
+    click.echo("To use Smart Commit, you'll need a Google AI API key (Gemini).")
+    click.echo("")
+    click.echo("📋 How to get your API key:")
+    click.echo("1. Go to https://makersuite.google.com/app/apikey")
+    click.echo("2. Sign in with your Google account")
+    click.echo("3. Click 'Create API Key'")
+    click.echo("4. Copy the generated API key")
+    click.echo("")
+    
+    api_key = click.prompt("🔑 Please enter your Google AI API key", type=str, hide_input=True)
+    
+    # Validate the API key format (basic check)
+    if not api_key or len(api_key) < 20:
+        click.echo("❌ Invalid API key format. Please check your key and try again.", err=True)
+        sys.exit(1)
 
     with open(env_path, 'w') as f:
         f.write(f"GOOGLE_API_KEY={api_key}\n")
 
-    click.echo("Configuration saved successfully!")
+    click.echo("")
+    click.echo("✅ Configuration saved successfully!")
+    click.echo("")
+    click.echo("🎉 You're all set! You can now use Smart Commit:")
+    click.echo("   • Stage your changes: git add .")
+    click.echo("   • Generate commit message: smart-commit commit")
+    click.echo("   • Or run: smart-commit commit --no-confirm (to skip confirmation)")
+    click.echo("")
+    click.echo("💡 Pro tip: You can also run 'smart-commit --help' to see all available commands.")
+
+@cli.command()
+def status():
+    """Check Smart Commit configuration status"""
+    config_dir = click.get_app_dir("smart-commit")
+    env_path = os.path.join(config_dir, '.env')
+    
+    click.echo("🔍 Smart Commit Configuration Status")
+    click.echo("=" * 40)
+    
+    # Check if config directory exists
+    if os.path.exists(config_dir):
+        click.echo("✅ Config directory: Found")
+    else:
+        click.echo("❌ Config directory: Not found")
+        click.echo("   Run 'smart-commit config' to set up your API key")
+        return
+    
+    # Check if .env file exists
+    if os.path.exists(env_path):
+        click.echo("✅ Configuration file: Found")
+        
+        # Try to load and validate the API key
+        try:
+            load_dotenv(env_path)
+            api_key = os.getenv("GOOGLE_API_KEY")
+            if api_key and len(api_key) >= 20:
+                click.echo("✅ API key: Configured and valid")
+                click.echo("🎉 Smart Commit is ready to use!")
+            else:
+                click.echo("❌ API key: Invalid or missing")
+                click.echo("   Run 'smart-commit config' to set up your API key")
+        except Exception as e:
+            click.echo(f"❌ Error reading configuration: {e}")
+    else:
+        click.echo("❌ Configuration file: Not found")
+        click.echo("   Run 'smart-commit config' to set up your API key")
 
 @cli.command()
 @click.option('--no-confirm', is_flag=True, help="Skip confirmation prompt")
