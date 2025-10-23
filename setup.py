@@ -1,4 +1,7 @@
-from setuptools import setup, find_packages
+from setuptsetup(
+    name="smart-commit",
+    version="0.1.6",
+    packages=find_packages(), import setup, find_packages
 import os
 
 # Read the README file for long description
