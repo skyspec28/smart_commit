@@ -48,18 +48,17 @@ jobs:
           --onefile `
           --name smart-commit `
           --add-data "smart_commit/config.yml;smart_commit" `
-          --hidden-import google.generativeai `
+          --collect-all click `
+          --collect-all google.generativeai `
+          --collect-all pydantic `
+          --collect-all dotenv `
           --hidden-import google.ai.generativelanguage `
-          --hidden-import pydantic `
           --hidden-import pydantic_core `
           --hidden-import yaml `
-          --hidden-import click `
-          --hidden-import click.core `
-          --hidden-import click.decorators `
-          --hidden-import click.types `
-          --hidden-import click.utils `
-          --hidden-import dotenv `
           --hidden-import subprocess `
+          --copy-metadata click `
+          --copy-metadata google-generativeai `
+          --copy-metadata pydantic `
           smart_commit/main.py
         echo "=== Build completed, checking dist directory ==="
         Get-ChildItem dist/
@@ -75,18 +74,17 @@ jobs:
           --onefile \
           --name smart-commit \
           --add-data "smart_commit/config.yml:smart_commit" \
-          --hidden-import google.generativeai \
+          --collect-all click \
+          --collect-all google.generativeai \
+          --collect-all pydantic \
+          --collect-all dotenv \
           --hidden-import google.ai.generativelanguage \
-          --hidden-import pydantic \
           --hidden-import pydantic_core \
           --hidden-import yaml \
-          --hidden-import click \
-          --hidden-import click.core \
-          --hidden-import click.decorators \
-          --hidden-import click.types \
-          --hidden-import click.utils \
-          --hidden-import dotenv \
           --hidden-import subprocess \
+          --copy-metadata click \
+          --copy-metadata google-generativeai \
+          --copy-metadata pydantic \
           smart_commit/main.py
         echo "=== Build completed, checking dist directory ==="
         ls -la dist/
