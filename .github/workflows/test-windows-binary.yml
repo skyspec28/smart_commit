@@ -1,0 +1,34 @@
+name: Test Windows Binary
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-windows-binary:
+    runs-on: windows-2022
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Download Windows binary
+      run: |
+        Invoke-WebRequest -Uri "https://github.com/skyspec28/smart_commit/releases/latest/download/smart-commit-windows.exe" -OutFile "smart-commit.exe"
+    
+    - name: Test binary help
+      run: |
+        .\smart-commit.exe --help
+    
+    - name: Test binary status
+      run: |
+        .\smart-commit.exe status
+    
+    - name: Verify binary size
+      run: |
+        $file = Get-Item "smart-commit.exe"
+        Write-Host "File size: $($file.Length) bytes"
+        if ($file.Length -lt 30MB -or $file.Length -gt 40MB) {
+          Write-Error "Binary size seems incorrect: $($file.Length) bytes"
+          exit 1
+        }
+        Write-Host "Binary size is within expected range"

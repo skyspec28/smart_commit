@@ -17,10 +17,10 @@ def initialize():
             api_key = os.getenv("GOOGLE_API_KEY")
 
     if not api_key:
-        raise ValueError("GOOGLE_API_KEY not found. Run 'smart-commit config' to set it up.")
+        raise ValueError("GOOGLE_API_KEY not found.Run 'smart-commit config' to set it up.")
 
     genai.configure(api_key=api_key)
-    return genai.GenerativeModel(model_name="models/gemini-1.5-flash")
+    return genai.GenerativeModel(model_name="gemini-2.5-pro")
 
 def get_git_diff():
     try:
