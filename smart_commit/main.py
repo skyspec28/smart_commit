@@ -6,6 +6,16 @@ import subprocess
 from smart_commit.config_loader import load_config
 import click
 
+# Fix Unicode encoding issues on Windows
+if sys.platform == 'win32':
+    # Set UTF-8 encoding for stdout and stderr
+    if hasattr(sys.stdout, 'reconfigure'):
+        sys.stdout.reconfigure(encoding='utf-8')
+    if hasattr(sys.stderr, 'reconfigure'):
+        sys.stderr.reconfigure(encoding='utf-8')
+    # Also set the environment variable for subprocess calls
+    os.environ['PYTHONIOENCODING'] = 'utf-8'
+
 def initialize():
     load_dotenv()
     api_key = os.getenv("GOOGLE_API_KEY")
