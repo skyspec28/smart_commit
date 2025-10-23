@@ -49,10 +49,17 @@ jobs:
           --name smart-commit `
           --add-data "smart_commit/config.yml;smart_commit" `
           --hidden-import google.generativeai `
+          --hidden-import google.ai.generativelanguage `
           --hidden-import pydantic `
+          --hidden-import pydantic_core `
           --hidden-import yaml `
           --hidden-import click `
+          --hidden-import click.core `
+          --hidden-import click.decorators `
+          --hidden-import click.types `
+          --hidden-import click.utils `
           --hidden-import dotenv `
+          --hidden-import subprocess `
           smart_commit/main.py
         echo "=== Build completed, checking dist directory ==="
         Get-ChildItem dist/
@@ -69,10 +76,17 @@ jobs:
           --name smart-commit \
           --add-data "smart_commit/config.yml:smart_commit" \
           --hidden-import google.generativeai \
+          --hidden-import google.ai.generativelanguage \
           --hidden-import pydantic \
+          --hidden-import pydantic_core \
           --hidden-import yaml \
           --hidden-import click \
+          --hidden-import click.core \
+          --hidden-import click.decorators \
+          --hidden-import click.types \
+          --hidden-import click.utils \
           --hidden-import dotenv \
+          --hidden-import subprocess \
           smart_commit/main.py
         echo "=== Build completed, checking dist directory ==="
         ls -la dist/
