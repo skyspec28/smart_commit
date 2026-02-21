@@ -1,4 +1,5 @@
 ai:
+  provider: "google"
   model: "gemini-2.5-flash"
   temperature: 0.5
   max_tokens: 120
@@ -21,7 +22,7 @@ ai:
     - "Summarize multiple changes if present, but avoid over-explaining"
     - "Do not include filenames in the message unless essential"
     - "Use appropriate emoji prefix for commit types — ✨ feat, 🐛 fix, 📝 docs, ♻️ refactor, 👷 build, ✅ test, 💚 ci, 🎨 style, 🔧 chore, ⚡ perf"
-    - "Output format: <emoji> type(scope): message" 
+    - "Output format: <emoji> type(scope): message"
     - "Follow this commit message pattern exactly: <emoji> type(scope):"
 
 commit:
@@ -42,8 +43,6 @@ commit:
     - build
     - ci
     - revert
-
-
 
 git:
   branch_reference: true

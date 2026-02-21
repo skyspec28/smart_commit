@@ -20,6 +20,8 @@ setup(
     install_requires=[
         "click>=8.0.0",
         "google-generativeai>=0.8.0",
+        "anthropic>=0.25.0",
+        "openai>=1.0.0",
         "python-dotenv>=1.0.0",
         "pydantic>=2.0.0",
         "pyyaml>=6.0",
