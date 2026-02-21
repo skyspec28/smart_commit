@@ -22,7 +22,7 @@ if ! git diff-index --quiet HEAD --; then
 fi
 
 # Get current version from setup.py
-current_version=$(/Users/apple/Documents/projects/smart-commit/venv/bin/python -c "import re; print(re.search(r'version=\"([^\"]+)\"', open('setup.py').read()).group(1))")
+current_version=$(python -c "import re; print(re.search(r'version=\"([^\"]+)\"', open('setup.py').read()).group(1))")
 echo "📦 Current version: $current_version"
 
 # Ask for new version

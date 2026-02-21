@@ -4,7 +4,7 @@ import yaml
 import os
 
 class AIConfig(BaseModel):
-    model: str = "gemini-1.5-flash"
+    model: str = "gemini-2.5-flash"
     temperature: float = Field(ge=0.0, le=1.0, default=0.7)
     max_tokens: int = Field(gt=0, default=100)
     rules: List[str] = []

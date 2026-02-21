@@ -33,21 +33,22 @@ def safe_echo(message, **kwargs):
         ascii_message = re.sub(r'[^\x00-\x7F]+', '', message)
         click.echo(ascii_message, **kwargs)
 
-def initialize():
-    load_dotenv()
+def initialize(model_name: str = "gemini-2.5-flash"):
+    # Load app config .env first with override=True so it always takes priority
+    config_dir = click.get_app_dir("smart-commit")
+    env_path = os.path.join(config_dir, '.env')
+    if os.path.exists(env_path):
+        load_dotenv(env_path, override=True)
+    else:
+        load_dotenv()
+
     api_key = os.getenv("GOOGLE_API_KEY")
-    if not api_key:
-        config_dir = click.get_app_dir("smart-commit")
-        env_path = os.path.join(config_dir, '.env')
-        if os.path.exists(env_path):
-            load_dotenv(env_path)
-            api_key = os.getenv("GOOGLE_API_KEY")
 
     if not api_key:
-        raise ValueError("GOOGLE_API_KEY not found.Run 'smart-commit config' to set it up.")
+        raise ValueError("GOOGLE_API_KEY not found. Run 'smart-commit config' to set it up.")
 
     genai.configure(api_key=api_key)
-    return genai.GenerativeModel(model_name="gemini-2.5-pro")
+    return genai.GenerativeModel(model_name=model_name)
 
 def get_git_diff():
     try:
@@ -78,7 +79,8 @@ def cli():
     pass
 
 @cli.command()
-def config():
+@click.option('--api-key', 'api_key_opt', default=None, help="Set API key directly without interactive prompt")
+def config(api_key_opt):
     """Configure Smart Commit settings with your Gemini API key"""
     config_dir = click.get_app_dir("smart-commit")
     os.makedirs(config_dir, exist_ok=True)
@@ -94,8 +96,11 @@ def config():
     safe_echo("3. Click 'Create API Key'")
     safe_echo("4. Copy the generated API key")
     safe_echo("")
-    
-    api_key = click.prompt("🔑 Please enter your Google AI API key", type=str, hide_input=True)
+
+    if api_key_opt:
+        api_key = api_key_opt
+    else:
+        api_key = click.prompt("🔑 Please enter your Google AI API key", type=str, hide_input=False)
     
     # Validate the API key format (basic check)
     if not api_key or len(api_key) < 20:
@@ -157,8 +162,8 @@ def status():
 def commit(no_confirm):
     """Generate and make a commit"""
     try:
-        model = initialize()
         config = load_config()
+        model = initialize(model_name=config.ai.model)
 
         diff = get_git_diff()
         if not diff:
