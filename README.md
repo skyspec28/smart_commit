@@ -1,248 +1,113 @@
-# Smart Commit 🤖
+# Smart Commit
 
-Got tired of thinking about commit messages and following pattern , so setup scripts for it and use gemni api
+AI-powered git commit message generator. Analyses your staged diff and produces a [Conventional Commits](https://www.conventionalcommits.org/) message — with or without emoji.
 
-
-## Features 
-
-- 🎯 Conventional commit format with emojis
-- 🎨 Automatic emoji selection based on commit type
-- 👀 Preview changes before committing
-- 📦 **Standalone binary - No language installation required!**
-- 🔧 One-time setup with Gemini API key
-
-## Quick Start 🚀
-
-### Option 1: Standalone Binary (Recommended) 
-
-**No Python installation required!** Download a single executable file:
-
-#### Quick Download Commands
+## Installation
 
 ```bash
-# macOS (Apple Silicon) - 33 MB ✅
+pip install smart-commit
+```
+
+Requires Python 3.8+ and a free [Google AI API key](https://aistudio.google.com/app/apikey).
+
+## Quick Start
+
+```bash
+# 1. Set your API key (once)
+smart-commit config
+
+# 2. Stage changes as normal
+git add .
+
+# 3. Let AI write the commit message
+smart-commit commit
+```
+
+That's it.
+
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `smart-commit config` | Save your API key |
+| `smart-commit status` | Check configuration |
+| `smart-commit commit` | Generate and commit |
+| `smart-commit commit --no-confirm` | Commit without confirmation prompt |
+| `smart-commit commit --no-emoji` | Plain `type(scope): subject` format |
+
+## Commit Message Format
+
+Messages follow the Conventional Commits spec:
+
+```
+✨ feat(auth): add Google OAuth integration
+
+Optional body explaining what changed and why.
+```
+
+Types: `feat` `fix` `docs` `style` `refactor` `perf` `test` `build` `ci` `chore` `revert`
+
+## Getting Your API Key
+
+1. Go to [Google AI Studio](https://aistudio.google.com/app/apikey)
+2. Sign in with your Google account
+3. Click **Create API Key**
+4. Run `smart-commit config` and paste the key
+
+## Configuration
+
+Default settings live in the bundled `smart_commit/config.yml`. You can override the AI model or rules by editing it after installation, or by passing a custom path to `load_config()`.
+
+## Standalone Binaries
+
+If you prefer not to install Python, pre-built binaries are available on the [Releases page](https://github.com/skyspec28/smart_commit/releases):
+
+```bash
+# macOS (Apple Silicon)
 curl -L https://github.com/skyspec28/smart_commit/releases/latest/download/smart-commit-macos -o smart-commit
-chmod +x smart-commit
+chmod +x smart-commit && ./smart-commit config
 
-# Linux - 44.6 MB ✅
+# Linux
 curl -L https://github.com/skyspec28/smart_commit/releases/latest/download/smart-commit-linux -o smart-commit
-chmod +x smart-commit
+chmod +x smart-commit && ./smart-commit config
 
-# Windows - 33 MB ✅
+# Windows (PowerShell)
 Invoke-WebRequest -Uri "https://github.com/skyspec28/smart_commit/releases/latest/download/smart-commit-windows.exe" -OutFile "smart-commit.exe"
 ```
 
-#### Alternative: Download from GitHub Releases
-
-Visit the [Releases page](https://github.com/skyspec28/smart_commit/releases) and download the binary for your platform:
-
-- **macOS**: `smart-commit-macos` ✅ **Available** (33 MB)
-- **Windows**: `smart-commit-windows.exe` ✅ **Available** (33 MB)
-- **Linux**: `smart-commit-linux` ✅ **Available** (44.6 MB)
-
-**All platforms are now supported!** 🎉
-
-#### Use Immediately
+## Development
 
 ```bash
-# Configure once (enter your Google AI API key)
-./smart-commit config
-
-# Stage your changes
-git add .
-
-# Generate and commit with AI
-./smart-commit commit
-```
-
-**Note**: On Windows, use `smart-commit.exe` instead of `./smart-commit`
-
-That's it! 🎉 No Python, no pip, no dependencies needed.
-
-### Option 2: Python Installation (For Developers) 
-
-If you prefer to install from source or contribute to the project:
-
-#### Prerequisites
-- **Python 3.8+** - [Download here](https://www.python.org/downloads/)
-- **Google AI API Key** - Free from [Google AI Studio](https://makersuite.google.com/app/apikey)
-
-#### Install Smart Commit
-
-**For macOS/Linux:**
-```bash
-# Clone and install with one command
 git clone https://github.com/skyspec28/smart_commit.git
 cd smart_commit
-./install.sh
-```
-
-**For Windows:**
-```bash
-# Clone the repository
-git clone https://github.com/skyspec28/smart_commit.git
-cd smart_commit
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Install globally
+python -m venv venv && source venv/bin/activate
 pip install -e .
-
-# Configure your API key
-smart-commit config
-```
-
-The installation will:
-- ✅ Check system requirements
-- 📦 Install Smart Commit globally
-- 🔧 Guide you through API key setup
-
-## Usage 💡
-
-### Available Commands
-
-**For Standalone Binary:**
-```bash
-# Configure your API key (first-time setup)
-./smart-commit config
-
-# Check configuration status
-./smart-commit status
-
-# Generate and make a commit
-./smart-commit commit
-
-# Skip confirmation prompt
-./smart-commit commit --no-confirm
-
-# Show help
-./smart-commit --help
-```
-
-**For Python Installation:**
-```bash
-# Configure your API key (first-time setup)
-smart-commit config
-
-# Check configuration status
-smart-commit status
-
-# Generate and make a commit
-smart-commit commit
-
-# Skip confirmation prompt
-smart-commit commit --no-confirm
-
-# Show help
 smart-commit --help
 ```
 
-
-## Commit Message Format 📝
-
-Messages follow the conventional commit format with emojis:
-
-```
-<emoji> type(scope): subject
-
-Example: ✨ feat(auth): Add OAuth2 authentication
+Run tests:
+```bash
+pip install pytest
+pytest
 ```
 
-Common types:
-- ✨ feat: New features
-- 🐛 fix: Bug fixes
-- 📝 docs: Documentation
-- ♻️ refactor: Code refactoring
-- 🎨 style: Code style/formatting
-- ⚡ perf: Performance improvements
-- 🔧 chore: Maintenance tasks
-
-## Getting Your API Key 🔑
-
-1. Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
-2. Sign in with your Google account
-3. Click "Create API Key"
-4. Copy the generated API key
-5. Run `./smart-commit config` (or `smart-commit.exe config` on Windows) and paste your key
-
-## Contributing 🤝
-
-Contributions are welcome! Please feel free to submit a Pull Request. 
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`./smart-commit commit`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## Development Setup 🛠️
-
-For developers who want to contribute:
+## Uninstall
 
 ```bash
-# Clone the repository
-git clone https://github.com/skyspec28/smart_commit.git
-cd smart_commit
-
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Install in development mode
-pip install -e .
-
-# Build standalone binary
-./build_binary.sh
-```
-
-## Uninstall 🗑️
-
-### Standalone Binary
-
-Simply delete the binary file:
-
-```bash
-# Remove the binary file
-rm smart-commit
-
-# Or if you renamed it
-rm smart-commit-macos
-rm smart-commit-linux
-rm smart-commit.exe
-```
-
-### Python Installation
-
-If you installed via pip:
-
-```bash
-# Uninstall the package
 pip uninstall smart-commit
 
-# Remove configuration files (optional)
-rm -rf ~/.config/smart-commit
+# Remove stored API key (optional)
+rm -rf ~/.config/smart-commit   # macOS/Linux
+# or %APPDATA%\smart-commit     # Windows
 ```
 
-### Remove Aliases (if created)
+## Contributing
 
-If you added aliases to your shell config:
+1. Fork the repo
+2. Create a branch: `git checkout -b feature/my-feature`
+3. Commit with smart-commit: `git add . && smart-commit commit`
+4. Open a Pull Request
 
-```bash
-# Edit your shell config file
-nano ~/.zshrc  # or ~/.bashrc
+## License
 
-# Remove these lines:
-# alias sc="./smart-commit"
-# alias gitadd="git add"
-
-# Reload your shell
-source ~/.zshrc
-```
-
-## License 📄
-
-This project is licensed under the MIT License.
+[MIT](LICENSE) © 2025 skyspec28

@@ -1,7 +1,10 @@
 from pydantic import BaseModel, Field
-from typing import List, Dict
+from pathlib import Path
+from typing import List
 import yaml
-import os
+
+DEFAULT_CONFIG = Path(__file__).parent / "config.yml"
+
 
 class AIConfig(BaseModel):
     model: str = "gemini-2.5-flash"
@@ -27,25 +30,7 @@ class Config(BaseModel):
 
 
 def load_config(path: str = None) -> Config:
-    # List of possible config file locations in order of preference
-    config_paths = [
-        path,  # User-specified path (if provided)
-        "smart_commit/config.yml",  # Local project path
-        os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "smart_commit/config.yml"),  # Package directory
-        "/usr/local/etc/smart-commit/config.yml",  # Global system path
-    ]
-
-    # Filter out None values
-    config_paths = [p for p in config_paths if p]
-
-    # Try each path in order
-    for config_path in config_paths:
-        try:
-            with open(config_path, "r") as file:
-                raw = yaml.safe_load(file)
-                return Config(**raw)
-        except (FileNotFoundError, IOError):
-            continue
-
-    # If we get here, no config file was found
-    raise FileNotFoundError(f"Could not find config file. Tried: {', '.join(config_paths)}")
+    config_path = Path(path) if path else DEFAULT_CONFIG
+    with open(config_path, "r") as f:
+        raw = yaml.safe_load(f)
+    return Config(**raw)

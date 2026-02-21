@@ -45,7 +45,7 @@ def initialize(model_name: str = "gemini-2.5-flash"):
     api_key = os.getenv("GOOGLE_API_KEY")
 
     if not api_key:
-        raise ValueError("GOOGLE_API_KEY not found. Run 'smart-commit config' to set it up.")
+        raise ValueError("API key not configured. Run 'smart-commit config' to get started.")
 
     genai.configure(api_key=api_key)
     return genai.GenerativeModel(model_name=model_name)
@@ -73,10 +73,21 @@ def get_staged_files():
         safe_echo(f"Error getting staged files: {e}", err=True)
         return []
 
-@click.group()
-def cli():
+@click.group(invoke_without_command=True)
+@click.pass_context
+def cli(ctx):
     """Smart Commit: AI-powered commit message generator"""
-    pass
+    if ctx.invoked_subcommand is None:
+        config_dir = click.get_app_dir("smart-commit")
+        env_path = os.path.join(config_dir, ".env")
+        if not os.path.exists(env_path):
+            safe_echo("Welcome to Smart Commit!")
+            safe_echo("")
+            safe_echo("Get started in two steps:")
+            safe_echo("  1. smart-commit config   # set your API key")
+            safe_echo("  2. git add . && smart-commit commit")
+        else:
+            click.echo(ctx.get_help())
 
 @cli.command()
 @click.option('--api-key', 'api_key_opt', default=None, help="Set API key directly without interactive prompt")
