@@ -157,9 +157,113 @@ def status():
         safe_echo("❌ Configuration file: Not found")
         safe_echo("   Run 'smart-commit config' to set up your API key")
 
+def _build_prompt(diff, staged_files, rules, use_emoji):
+    """Build the AI prompt with or without emoji instructions."""
+    if use_emoji:
+        format_line = "<emoji> type(scope): subject"
+        types_section = """\
+**2. Commit Types & Emojis**
+Use exactly one of the following types, with its corresponding emoji:
+- ✨ `feat`: A new feature for the user.
+- 🐛 `fix`: A bug fix for the user.
+- 📚 `docs`: Documentation changes only.
+- 🎨 `style`: Code style changes (formatting, whitespace, etc; no logic change).
+- ♻️ `refactor`: A code change that neither fixes a bug nor adds a feature.
+- ⚡ `perf`: A code change that improves performance.
+- 🧪 `test`: Adding missing tests or correcting existing tests.
+- 🏗️ `build`: Changes that affect the build system or external dependencies.
+- 👷 `ci`: Changes to our CI configuration files and scripts.
+- 🔧 `chore`: Other changes that don't modify src or test files (routine maintenance).
+- ⏪ `revert`: Reverts a previous commit."""
+        examples = """\
+[EXAMPLE 1: Simple fix]
+- ✨ feat(auth): add Google OAuth integration
+
+[EXAMPLE 2: Complex refactor with a body]
+- ♻️ refactor(api): restructure user authentication flow
+
+  Extract OAuth logic into a separate service and add proper error
+  handling for expired tokens. This improves modularity and testability.
+
+[EXAMPLE 3: Feature with a breaking change]
+- ✨ feat(api): implement v2 user management system
+
+  Complete rewrite of user handling with a new database schema.
+
+  BREAKING CHANGE: The `/api/user` endpoint now returns a different
+  response format and requires an API key for authentication."""
+    else:
+        format_line = "type(scope): subject"
+        types_section = """\
+**2. Commit Types**
+Use exactly one of the following types (no emoji):
+- `feat`: A new feature for the user.
+- `fix`: A bug fix for the user.
+- `docs`: Documentation changes only.
+- `style`: Code style changes (formatting, whitespace, etc; no logic change).
+- `refactor`: A code change that neither fixes a bug nor adds a feature.
+- `perf`: A code change that improves performance.
+- `test`: Adding missing tests or correcting existing tests.
+- `build`: Changes that affect the build system or external dependencies.
+- `ci`: Changes to our CI configuration files and scripts.
+- `chore`: Other changes that don't modify src or test files (routine maintenance).
+- `revert`: Reverts a previous commit."""
+        examples = """\
+[EXAMPLE 1: Simple fix]
+- feat(auth): add Google OAuth integration
+
+[EXAMPLE 2: Complex refactor with a body]
+- refactor(api): restructure user authentication flow
+
+  Extract OAuth logic into a separate service and add proper error
+  handling for expired tokens. This improves modularity and testability.
+
+[EXAMPLE 3: Feature with a breaking change]
+- feat(api): implement v2 user management system
+
+  Complete rewrite of user handling with a new database schema.
+
+  BREAKING CHANGE: The `/api/user` endpoint now returns a different
+  response format and requires an API key for authentication."""
+
+    return f"""\
+You are an expert at generating Git commit messages that follow the Conventional Commits specification.
+
+**1. Format**
+Your output must be only the commit message, in this exact format:
+{format_line}
+
+[optional body: explains the "what" and "why" of the change]
+
+[optional footer: e.g., "BREAKING CHANGE: description"]
+
+{types_section}
+
+**3. Guidelines**
+- Subject line must be under 72 characters and use present tense (e.g., "add," not "added").
+- The `scope` should be a noun identifying the part of the codebase affected (e.g., `api`, `auth`, `ui`).
+- **A body is required if:** the change is complex, affects multiple areas, or introduces a breaking change. Use bullet points in the body to explain key changes.
+- **A `BREAKING CHANGE:` footer is required if** the change is not backward-compatible.
+
+**4. Examples**
+{examples}
+
+**5. Your Task**
+Analyze the following files and diff, then generate the complete commit message.
+{rules}
+- **Files Changed:** {", ".join(staged_files)}
+- **Diff:**
+```diff
+{diff}
+
+Files changed: {", ".join(staged_files)}
+"""
+
+
 @cli.command()
 @click.option('--no-confirm', is_flag=True, help="Skip confirmation prompt")
-def commit(no_confirm):
+@click.option('--no-emoji', 'no_emoji', is_flag=True, help="Generate commit message without emoji prefix")
+def commit(no_confirm, no_emoji):
     """Generate and make a commit"""
     try:
         config = load_config()
@@ -173,65 +277,8 @@ def commit(no_confirm):
         staged_files = get_staged_files()
         rules = "\n".join(config.ai.rules)
 
-        prompt = f"""
-You are an expert at generating Git commit messages that follow the Conventional Commits specification.
-
-**1. Format**
-Your output must be only the commit message, in this exact format:
-<emoji> type(scope): subject
-
-[optional body: explains the "what" and "why" of the change]
-
-[optional footer: e.g., "BREAKING CHANGE: description"]
-
-**2. Commit Types & Emojis**
-Use exactly one of the following types, with its corresponding emoji:
-- ✨ `feat`: A new feature for the user.
-- 🐛 `fix`: A bug fix for the user.
-- 📚 `docs`: Documentation changes only.
-- 🎨 `style`: Code style changes (formatting, whitespace, etc; no logic change).
-- ♻️ `refactor`: A code change that neither fixes a bug nor adds a feature.
-- ⚡ `perf`: A code change that improves performance.
-- 🧪 `test`: Adding missing tests or correcting existing tests.
-- 🏗️ `build`: Changes that affect the build system or external dependencies.
-- 👷 `ci`: Changes to our CI configuration files and scripts.
-- 🔧 `chore`: Other changes that don't modify src or test files (routine maintenance).
-- ⏪ `revert`: Reverts a previous commit.
-
-**3. Guidelines**
-- Subject line must be under 72 characters and use present tense (e.g., "add," not "added").
-- The `scope` should be a noun identifying the part of the codebase affected (e.g., `api`, `auth`, `ui`).
-- **A body is required if:** the change is complex, affects multiple areas, or introduces a breaking change. Use bullet points in the body to explain key changes.
-- **A `BREAKING CHANGE:` footer is required if** the change is not backward-compatible.
-
-**4. Examples**
-[EXAMPLE 1: Simple fix]
-- ✨ feat(auth): add Google OAuth integration
-
-[EXAMPLE 2: Complex refactor with a body]
-- ♻️ refactor(api): restructure user authentication flow
-  
-  Extract OAuth logic into a separate service and add proper error
-  handling for expired tokens. This improves modularity and testability.
-
-[EXAMPLE 3: Feature with a breaking change]
-- ✨ feat(api): implement v2 user management system
-  
-  Complete rewrite of user handling with a new database schema.
-  
-  BREAKING CHANGE: The `/api/user` endpoint now returns a different
-  response format and requires an API key for authentication.
-
-**5. Your Task**
-Analyze the following files and diff, then generate the complete commit message.
-{rules}
-- **Files Changed:** {", ".join(staged_files)}
-- **Diff:**
-```diff
-{diff}
-
-Files changed: {", ".join(staged_files)}
-"""
+        use_emoji = config.commit.auto_emoji and not no_emoji
+        prompt = _build_prompt(diff, staged_files, rules, use_emoji)
         commit_message = model.generate_content(prompt).text.strip()
         safe_echo(f"\nGenerated commit message:\n{commit_message}\n")
 
